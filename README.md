@@ -17,16 +17,16 @@ DB_PASSWORD=secret' > .env
 ## Entorno Docker
 ```docker
 ## Crear red en docker
-docker network create microservice_users_network
+sudo docker network create microservice_users_network
 
 ## Crear y ejecutar la base de datos en la red creada
-docker run --network microservice_users_network --name microservice_users_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=db_microservice_users -d mysql
+sudo docker run --network microservice_users_network --name microservice_users_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=db_microservice_users -d mysql
 
 ## Creamos la imagen
 sudo docker build -t microservice_users_image .
 
 ## Creamos y ejecutamos el contenedor en la red creada
-docker run --env-file .env --network microservice_users_network -d -p 3000:3000 --name microservice_users_container microservice_users_image
+sudo docker run --env-file .env --network microservice_users_network -d -p 3000:3000 --name microservice_users_container microservice_users_image
 
 ## Permitimos el puerto 3000
 sudo systemctl enable ufw
