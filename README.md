@@ -3,7 +3,7 @@
 ## Instalación
 
 ```bash
-git clone https://jackmmd/microservice-express-docker
+git clone https://github.com/jackmmd/microservice-express-docker
 
 cd microservice-express-docker
 
