@@ -22,6 +22,19 @@ sudo docker network create microservice_users_network
 ## Crear y ejecutar la base de datos en la red creada
 sudo docker run --network microservice_users_network --name microservice_users_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=db_microservice_users -d mysql
 
+## Creamos una tabla e insertamos datos 
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL 
+);
+
+INSERT INTO users (username, email, password)
+VALUES
+('user1', 'user1@example.com', 'password1'),
+('user2', 'user2@example.com', 'password2');
+
 ## Creamos la imagen
 sudo docker build -t microservice_users_image .
 
@@ -29,9 +42,7 @@ sudo docker build -t microservice_users_image .
 sudo docker run --env-file .env --network microservice_users_network -d -p 3000:3000 --name microservice_users_container microservice_users_image
 
 ## Permitimos el puerto 3000
-sudo systemctl enable ufw
 sudo ufw enable
-
 
 
 ## Resultados
