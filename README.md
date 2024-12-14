@@ -1,9 +1,5 @@
 ### Deploy de un Microservicio: Express + Docker + MySQL
 
-## Crear la base de datos
-```docker
-docker run --name microservice_users_mysql -p 3306:3306  -e MYSQL_ROOT_PASSWORD=secret -d mysql
-```
 ## Instalación
 
 ```bash
@@ -11,20 +7,47 @@ git clone https://jackmmd/microservice-express-docker
 
 cd microservice-express-docker
 
-npm i
-
-npm start
+## Archivo .env
+PORT=3000
+DB_HOST=microservice_users_mysql
+DB_PORT=3306
+DB_NAME=db_microservice_users
+DB_USER=root
+DB_PASSWORD=secret
 
 ```
+## Entorno Docker
+```docker
+## Crear red en docker
+docker network create microservice_users_network
 
-## Produción
-```bash
-export PORT = 3000
-export DB_HOST = localhost
-export DB_PORT = 3306
-export DB_NAME = db_microservice_users
-export DB_USER = root
-export DB_PASSWORD = secret
+## Crear y ejecutar la base de datos en la red creada
+docker run --network microservice_users_network --name microservice_users_mysql -p 3306:3306  -e MYSQL_ROOT_PASSWORD=secret -d mysql
+
+## Creamos la imagen
+sudo docker build -t microservice_users_image .
+
+## Creamos y ejecutamos el contenedor en la red creada
+docker run --env-file .env --network microservice_users_network -d -p 3000:3000 --name microservice_users_container microservice_users_image
+
+## Resultados
+
+curl http://tu_dominio_o_ip:3000 | json_pp
+[
+   {
+      "email" : "user1@example.com",
+      "id" : 1,
+      "password" : "password1",
+      "username" : "user1"
+   },
+   {
+      "email" : "user2@example.com",
+      "id" : 2,
+      "password" : "password2",
+      "username" : "user2"
+   }
+]
+
 ```
 
 ¡Gracias por pasarte por aquí! 🤙
