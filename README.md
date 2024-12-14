@@ -3,17 +3,15 @@
 ## Instalación
 
 ```bash
-git clone https://github.com/jackmmd/microservice-express-docker
-
-cd microservice-express-docker
+git clone https://github.com/jackmmd/microservice-express-docker && cd microservice-express-docker
 
 ## Archivo .env
-PORT=3000
+echo 'PORT=3000
 DB_HOST=microservice_users_mysql
 DB_PORT=3306
 DB_NAME=db_microservice_users
 DB_USER=root
-DB_PASSWORD=secret
+DB_PASSWORD=secret' > .env
 
 ```
 ## Entorno Docker
@@ -22,13 +20,19 @@ DB_PASSWORD=secret
 docker network create microservice_users_network
 
 ## Crear y ejecutar la base de datos en la red creada
-docker run --network microservice_users_network --name microservice_users_mysql -p 3306:3306  -e MYSQL_ROOT_PASSWORD=secret -d mysql
+docker run --network microservice_users_network --name microservice_users_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=db_microservice_users -d mysql
 
 ## Creamos la imagen
 sudo docker build -t microservice_users_image .
 
 ## Creamos y ejecutamos el contenedor en la red creada
 docker run --env-file .env --network microservice_users_network -d -p 3000:3000 --name microservice_users_container microservice_users_image
+
+## Permitimos el puerto 3000
+sudo systemctl enable ufw
+sudo ufw enable
+
+
 
 ## Resultados
 
