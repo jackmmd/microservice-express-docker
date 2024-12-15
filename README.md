@@ -48,7 +48,6 @@ sudo docker build -t microservice_users_image .
 sudo docker run --env-file .env --network microservice_users_network -d -p 3000:3000 --name microservice_users_container microservice_users_image
 
 ## Resultados
-
 curl http://tu_dominio_o_ip:3000 | json_pp
 [
    {
