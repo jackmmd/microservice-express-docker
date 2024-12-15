@@ -23,6 +23,10 @@ sudo docker network create microservice_users_network
 sudo docker run --network microservice_users_network --name microservice_users_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=db_microservice_users -d mysql
 
 ## Creamos una tabla e insertamos datos 
+sudo docker exec -it microservice_users_mysql bash
+mysql -u root -p
+use db_microservice_users;
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -35,9 +39,6 @@ VALUES
 ('user1', 'user1@example.com', 'password1'),
 ('user2', 'user2@example.com', 'password2');
 
-sudo docker exec -it microservice_users_mysql bash
-mysql -u root -p
-use db_microservice_users;
 exit
 exit
 
