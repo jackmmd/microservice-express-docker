@@ -35,15 +35,17 @@ VALUES
 ('user1', 'user1@example.com', 'password1'),
 ('user2', 'user2@example.com', 'password2');
 
+sudo docker exec -it microservice_users_mysql bash
+mysql -u root -p
+use db_microservice_users;
+exit
+exit
+
 ## Creamos la imagen
 sudo docker build -t microservice_users_image .
 
 ## Creamos y ejecutamos el contenedor en la red creada
 sudo docker run --env-file .env --network microservice_users_network -d -p 3000:3000 --name microservice_users_container microservice_users_image
-
-## Permitimos el puerto 3000
-sudo ufw enable
-
 
 ## Resultados
 
