@@ -1,4 +1,4 @@
-### Deploy de un Microservicio: Express + Docker + MySQL
+### Despliegue de un Microservicio: Express + Docker + MySQL
 
 ## Instalación
 
